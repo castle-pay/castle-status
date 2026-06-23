@@ -1,8 +1,8 @@
 {
-    "active": true,
-    "severity": "critical",
-    "title": "Hello World",
-    "message": "This is live from Github",
-    "showSupport": true,
-    "updatedAt": ""
+  "active": true,
+  "severity": "warning",
+  "title": "Some Castle features may be unavailable",
+  "message": "We're investigating an issue affecting parts of the app. We'll update this banner as soon as we know more.",
+  "showSupport": false,
+  "updatedAt": "2026-06-23T21:01:47Z"
 }
