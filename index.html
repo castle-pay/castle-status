@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Castle status</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                max-width: 640px;
+                margin: 48px auto;
+                padding: 0 24px;
+                line-height: 1.5;
+                color: #050404;
+            }
+            a {
+                color: #8f723b;
+            }
+            pre {
+                background: #f7f5f2;
+                padding: 16px;
+                border-radius: 6px;
+                overflow-x: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Castle status</h1>
+        <p>
+            This repo hosts a static <code>status.json</code> file served via GitHub Pages. The Castle web app
+            polls it to show a downtime / maintenance banner when our backend is unavailable.
+        </p>
+        <p>
+            <strong>Live config:</strong>
+            <a href="./status.json">status.json</a>
+        </p>
+        <p>
+            Engineers: see <a href="https://github.com/castle-pay/castle-status/blob/main/README.md">README</a> for
+            how to activate or clear the banner.
+        </p>
+    </body>
+</html>

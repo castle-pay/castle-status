@@ -1,0 +1,8 @@
+{
+    "active": true,
+    "severity": "maintenance",
+    "title": "Scheduled maintenance in progress",
+    "message": "Castle is briefly offline for planned updates and will be back online shortly. Thanks for your patience.",
+    "showSupport": true,
+    "updatedAt": ""
+}

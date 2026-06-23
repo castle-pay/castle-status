@@ -1,0 +1,8 @@
+{
+    "active": true,
+    "severity": "warning",
+    "title": "Some Castle features may be unavailable",
+    "message": "We're investigating an issue affecting parts of the app. We'll update this banner as soon as we know more.",
+    "showSupport": false,
+    "updatedAt": ""
+}
