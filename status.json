@@ -1,0 +1,8 @@
+{
+    "active": true,
+    "severity": "critical",
+    "title": "Hello World",
+    "message": "This is live from Github",
+    "showSupport": true,
+    "updatedAt": ""
+}
