@@ -92,3 +92,7 @@ The frontend cache-busts fetches with `?t=timestamp` to avoid GitHub Pages CDN s
 ## index.html
 
 **Not required for the app** — `castle-web` only fetches the env-specific JSON files. `index.html` is included so humans visiting the Pages root URL get a short explanation instead of a 404.
+
+## robots.txt
+
+`robots.txt` disallows all crawlers so the GitHub Pages site is not indexed by search engines.
