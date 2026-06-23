@@ -11,7 +11,7 @@ The app polls an environment-specific JSON file from GitHub Pages — **independ
 | File | Used by |
 | --- | --- |
 | [`status-prod.json`](https://castle-pay.github.io/castle-status/status-prod.json) | Production (`app.getcastle.com`) |
-| [`status-stage.json`](https://castle-pay.github.io/castle-status/status-stage.json) | Staging (`app-staging.getcastle.com`) |
+| [`status-staging.json`](https://castle-pay.github.io/castle-status/status-staging.json) | Staging (`app-staging.getcastle.com`) |
 | [`status-dev.json`](https://castle-pay.github.io/castle-status/status-dev.json) | Local dev (`yarn dev`) |
 
 Each environment reads only its own file, so you can test banners on dev/staging without affecting production.
@@ -43,7 +43,7 @@ Each environment reads only its own file, so you can test banners on dev/staging
 ### Option 1: GitHub Actions (recommended)
 
 1. Go to **Actions** → **Set maintenance status** → **Run workflow**
-2. Choose **environment** (`dev`, `stage`, or `prod`) and **severity** (`critical`, `warning`, `maintenance`, or `clear`)
+2. Choose **environment** (`dev`, `staging`, or `prod`) and **severity** (`critical`, `warning`, `maintenance`, or `clear`)
 3. Wait ~1–3 minutes for GitHub Pages to deploy; the app polls every 60s
 
 Or from the CLI:
@@ -57,7 +57,7 @@ gh workflow run set-status.yml -f environment=prod -f severity=clear -R castle-p
 
 ```bash
 ./scripts/set-status.sh dev critical
-./scripts/set-status.sh stage warning
+./scripts/set-status.sh staging warning
 ./scripts/set-status.sh prod maintenance
 ./scripts/set-status.sh dev clear
 ```

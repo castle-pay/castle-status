@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: ./scripts/set-status.sh <dev|stage|prod> <critical|warning|maintenance|clear>
+# Usage: ./scripts/set-status.sh <dev|staging|prod> <critical|warning|maintenance|clear>
 # Run from the repo root. Commits and pushes the env-specific status file to main.
 
 ENV="${1:-}"
@@ -10,17 +10,17 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TEMPLATES_DIR="$REPO_ROOT/templates"
 
 if [[ -z "$ENV" || -z "$SEVERITY" ]]; then
-    echo "Usage: $0 <dev|stage|prod> <critical|warning|maintenance|clear>" >&2
+    echo "Usage: $0 <dev|staging|prod> <critical|warning|maintenance|clear>" >&2
     exit 1
 fi
 
 case "$ENV" in
     dev) STATUS_FILE="$REPO_ROOT/status-dev.json" ;;
-    stage) STATUS_FILE="$REPO_ROOT/status-stage.json" ;;
+    staging) STATUS_FILE="$REPO_ROOT/status-staging.json" ;;
     prod) STATUS_FILE="$REPO_ROOT/status-prod.json" ;;
     *)
         echo "Unknown environment: $ENV" >&2
-        echo "Use: dev, stage, or prod" >&2
+        echo "Use: dev, staging, or prod" >&2
         exit 1
         ;;
 esac
