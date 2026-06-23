@@ -16,24 +16,23 @@
             a {
                 color: #8f723b;
             }
-            pre {
-                background: #f7f5f2;
-                padding: 16px;
-                border-radius: 6px;
-                overflow-x: auto;
+            ul {
+                padding-left: 1.25rem;
             }
         </style>
     </head>
     <body>
         <h1>Castle status</h1>
         <p>
-            This repo hosts a static <code>status.json</code> file served via GitHub Pages. The Castle web app
-            polls it to show a downtime / maintenance banner when our backend is unavailable.
+            This repo hosts static status JSON files served via GitHub Pages. The Castle web app polls the
+            file for its environment to show a downtime / maintenance banner when our backend is unavailable.
         </p>
-        <p>
-            <strong>Live config:</strong>
-            <a href="./status.json">status.json</a>
-        </p>
+        <p><strong>Config files:</strong></p>
+        <ul>
+            <li><a href="./status-prod.json">status-prod.json</a> — production</li>
+            <li><a href="./status-stage.json">status-stage.json</a> — staging</li>
+            <li><a href="./status-dev.json">status-dev.json</a> — local dev</li>
+        </ul>
         <p>
             Engineers: see <a href="https://github.com/castle-pay/castle-status/blob/main/README.md">README</a> for
             how to activate or clear the banner.

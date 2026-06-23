@@ -3,6 +3,14 @@ name: Set maintenance status
 on:
     workflow_dispatch:
         inputs:
+            environment:
+                description: Target environment
+                required: true
+                type: choice
+                options:
+                    - dev
+                    - stage
+                    - prod
             severity:
                 description: Severity level (or clear to deactivate the banner)
                 required: true
@@ -24,21 +32,28 @@ jobs:
 
             - name: Apply status template
               run: |
-                  case "${{ inputs.severity }}" in
-                    clear) cp templates/inactive.json status.json ;;
-                    critical) cp templates/critical.json status.json ;;
-                    warning) cp templates/warning.json status.json ;;
-                    maintenance) cp templates/maintenance.json status.json ;;
+                  case "${{ inputs.environment }}" in
+                    dev) STATUS_FILE=status-dev.json ;;
+                    stage) STATUS_FILE=status-stage.json ;;
+                    prod) STATUS_FILE=status-prod.json ;;
                   esac
+
+                  case "${{ inputs.severity }}" in
+                    clear) cp templates/inactive.json "$STATUS_FILE" ;;
+                    critical) cp templates/critical.json "$STATUS_FILE" ;;
+                    warning) cp templates/warning.json "$STATUS_FILE" ;;
+                    maintenance) cp templates/maintenance.json "$STATUS_FILE" ;;
+                  esac
+
                   TIMESTAMP="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-                  jq --arg ts "$TIMESTAMP" '.updatedAt = $ts' status.json > status.tmp
-                  mv status.tmp status.json
+                  jq --arg ts "$TIMESTAMP" '.updatedAt = $ts' "$STATUS_FILE" > status.tmp
+                  mv status.tmp "$STATUS_FILE"
 
             - name: Commit and push
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git add status.json
+                  git add status-dev.json status-stage.json status-prod.json
                   git diff --staged --quiet && echo "No changes" && exit 0
-                  git commit -m "status: ${{ inputs.severity }}"
+                  git commit -m "status-${{ inputs.environment }}: ${{ inputs.severity }}"
                   git push

@@ -1,18 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: ./scripts/set-status.sh critical|warning|maintenance|clear
-# Run from the repo root. Commits and pushes status.json to main.
+# Usage: ./scripts/set-status.sh <dev|stage|prod> <critical|warning|maintenance|clear>
+# Run from the repo root. Commits and pushes the env-specific status file to main.
 
-SEVERITY="${1:-}"
+ENV="${1:-}"
+SEVERITY="${2:-}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-STATUS_FILE="$REPO_ROOT/status.json"
 TEMPLATES_DIR="$REPO_ROOT/templates"
 
-if [[ -z "$SEVERITY" ]]; then
-    echo "Usage: $0 critical|warning|maintenance|clear" >&2
+if [[ -z "$ENV" || -z "$SEVERITY" ]]; then
+    echo "Usage: $0 <dev|stage|prod> <critical|warning|maintenance|clear>" >&2
     exit 1
 fi
+
+case "$ENV" in
+    dev) STATUS_FILE="$REPO_ROOT/status-dev.json" ;;
+    stage) STATUS_FILE="$REPO_ROOT/status-stage.json" ;;
+    prod) STATUS_FILE="$REPO_ROOT/status-prod.json" ;;
+    *)
+        echo "Unknown environment: $ENV" >&2
+        echo "Use: dev, stage, or prod" >&2
+        exit 1
+        ;;
+esac
 
 case "$SEVERITY" in
     clear)
@@ -38,8 +49,8 @@ else
 fi
 
 cd "$REPO_ROOT"
-git add status.json
-git commit -m "status: $SEVERITY"
+git add "$STATUS_FILE"
+git commit -m "status-$ENV: $SEVERITY"
 git push origin main
 
-echo "Published $SEVERITY status. GitHub Pages will update in ~1-3 minutes."
+echo "Published $SEVERITY status for $ENV. GitHub Pages will update in ~1-3 minutes."

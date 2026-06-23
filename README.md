@@ -2,10 +2,19 @@
 
 Static maintenance / downtime banner config for [Castle web](https://github.com/castle-pay/castle-web).
 
-The app polls `status.json` from GitHub Pages — **independent of our API** — so users still see outage messaging when backend services are down.
+The app polls an environment-specific JSON file from GitHub Pages — **independent of our API** — so users still see outage messaging when backend services are down.
 
 - **Pages URL:** https://castle-pay.github.io/castle-status/
-- **Config file:** https://castle-pay.github.io/castle-status/status.json
+
+## Config files (one per environment)
+
+| File | Used by |
+| --- | --- |
+| [`status-prod.json`](https://castle-pay.github.io/castle-status/status-prod.json) | Production (`app.getcastle.com`) |
+| [`status-stage.json`](https://castle-pay.github.io/castle-status/status-stage.json) | Staging (`app-staging.getcastle.com`) |
+| [`status-dev.json`](https://castle-pay.github.io/castle-status/status-dev.json) | Local dev (`yarn dev`) |
+
+Each environment reads only its own file, so you can test banners on dev/staging without affecting production.
 
 ## Schema
 
@@ -34,30 +43,30 @@ The app polls `status.json` from GitHub Pages — **independent of our API** —
 ### Option 1: GitHub Actions (recommended)
 
 1. Go to **Actions** → **Set maintenance status** → **Run workflow**
-2. Choose severity: `critical`, `warning`, `maintenance`, or `clear`
+2. Choose **environment** (`dev`, `stage`, or `prod`) and **severity** (`critical`, `warning`, `maintenance`, or `clear`)
 3. Wait ~1–3 minutes for GitHub Pages to deploy; the app polls every 60s
 
 Or from the CLI:
 
 ```bash
-gh workflow run set-status.yml -f severity=critical -R castle-pay/castle-status
-gh workflow run set-status.yml -f severity=clear -R castle-pay/castle-status
+gh workflow run set-status.yml -f environment=dev -f severity=critical -R castle-pay/castle-status
+gh workflow run set-status.yml -f environment=prod -f severity=clear -R castle-pay/castle-status
 ```
 
 ### Option 2: Shell script
 
 ```bash
-./scripts/set-status.sh critical
-./scripts/set-status.sh warning
-./scripts/set-status.sh maintenance
-./scripts/set-status.sh clear
+./scripts/set-status.sh dev critical
+./scripts/set-status.sh stage warning
+./scripts/set-status.sh prod maintenance
+./scripts/set-status.sh dev clear
 ```
 
 Requires `jq`, git push access to `main`, and run from a local clone.
 
 ### Option 3: Manual edit
 
-1. Copy a file from `templates/` to `status.json`
+1. Edit the appropriate `status-{env}.json` (or copy from `templates/`)
 2. Set `updatedAt` to the current UTC time (optional)
 3. Commit and push to `main`
 
@@ -80,6 +89,6 @@ After pushing to `main`:
 
 The frontend cache-busts fetches with `?t=timestamp` to avoid GitHub Pages CDN staleness.
 
-## Do we need index.html?
+## index.html
 
-**No** — the web app only fetches `status.json`. `index.html` is included so humans visiting the Pages root URL get a short explanation instead of a 404.
+**Not required for the app** — `castle-web` only fetches the env-specific JSON files. `index.html` is included so humans visiting the Pages root URL get a short explanation instead of a 404.
