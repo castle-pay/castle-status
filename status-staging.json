@@ -1,8 +1,8 @@
 {
-  "active": true,
+  "active": false,
   "severity": "critical",
-  "title": "Castle is temporarily unavailable",
-  "message": "Our team is working to restore service. You won't be able to log in until we're back online.",
+  "title": "",
+  "message": "",
   "showSupport": true,
-  "updatedAt": "2026-06-24T15:44:49Z"
+  "updatedAt": "2026-07-01T15:43:47Z"
 }
