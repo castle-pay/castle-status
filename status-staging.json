@@ -1,7 +1,7 @@
 {
   "active": true,
   "severity": "maintenance",
-  "title": "Veterans Day Reminder",
+  "title": "No payment processed on Veterans Day.",
   "message": "Wednesday, November 11th is a federal banking holiday and payments will not be processed that day. Please plan accordingly.",
   "showSupport": false,
   "updatedAt": "2026-11-09T19:19:49Z"
