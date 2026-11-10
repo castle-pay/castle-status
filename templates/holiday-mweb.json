@@ -1,0 +1,21 @@
+{
+    "active": true,
+    "severity": "maintenance",
+    "title": "Veterans Day Notice: No Payments Processed",
+    "message": "Wednesday, November 11th is a federal banking holiday and payments will not be processed that day. Please plan accordingly.",
+    "showSupport": false,
+    "cta": {
+        "label": "Email support",
+        "href": "mailto:support@getcastle.com"
+    },
+    "mobile": {
+        "title": "No payments on Veterans Day",
+        "message": "Nov 11 is a federal banking holiday — payments will not be processed. Plan ahead for funding and disbursements.",
+        "showSupport": false,
+        "cta": {
+            "label": "Contact support",
+            "href": "mailto:support@getcastle.com"
+        }
+    },
+    "updatedAt": ""
+}
