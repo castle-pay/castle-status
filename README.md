@@ -25,6 +25,19 @@ Each environment reads only its own file, so you can test banners on dev/staging
     "title": "Castle is temporarily unavailable",
     "message": "Our team is working to restore service...",
     "showSupport": true,
+    "cta": {
+        "label": "Email support",
+        "href": "mailto:support@getcastle.com"
+    },
+    "mobile": {
+        "title": "Castle is temporarily unavailable",
+        "message": "We're restoring service. Open for details and support.",
+        "showSupport": false,
+        "cta": {
+            "label": "Contact support",
+            "href": "mailto:support@getcastle.com"
+        }
+    },
     "updatedAt": "2026-06-23T20:00:00Z"
 }
 ```
@@ -33,10 +46,17 @@ Each environment reads only its own file, so you can test banners on dev/staging
 | --- | --- | --- |
 | `active` | boolean | When `false`, the banner is hidden |
 | `severity` | `"critical"` \| `"warning"` \| `"maintenance"` | Controls banner color and icon |
-| `title` | string | Bold headline |
-| `message` | string | Supporting text |
-| `showSupport` | boolean (optional) | Show "Need urgent help? support@getcastle.com" |
-| `updatedAt` | string (optional) | ISO 8601 timestamp of last change |
+| `title` | string | Bold headline (web; also mweb fallback) |
+| `message` | string | Supporting text (web inline; mweb bottomsheet) |
+| `showSupport` | boolean (optional) | Show "Need urgent help? support@getcastle.com" when no `cta` |
+| `cta` | `{ label, href }` (optional) | Primary action button / link. Prefer over `showSupport` when both are set |
+| `mobile` | object (optional) | Per-field mweb overrides for `title`, `message`, `showSupport`, and/or `cta`. Omitted keys fall back to the top-level values |
+| `updatedAt` | string (optional) | ISO 8601 timestamp of last change. Also used as the session-dismiss identity — bump it when republishing so a previously dismissed banner can show again |
+
+### Surface behavior (castle-web)
+
+- **Web:** title + message inline; CTA or support link on the right; dismiss (X) hides the banner for the browser session.
+- **mweb:** compact tappable title row (caret affordance). Tap opens a bottomsheet with the resolved description + CTA. Description/CTA are not shown inline.
 
 ## Activate the banner
 
@@ -67,8 +87,27 @@ Requires `jq`, git push access to `main`, and run from a local clone.
 ### Option 3: Manual edit
 
 1. Edit the appropriate `status-{env}.json` (or copy from `templates/`)
-2. Set `updatedAt` to the current UTC time (optional)
+2. Set `updatedAt` to the current UTC time (optional but recommended)
 3. Commit and push to `main`
+
+### Local FE click-test without publishing
+
+In `castle-web`, open `/debug` → **Maintenance Banner** → `Holiday + mweb copy` (or Critical/Warning/Maintenance). Narrow the viewport to mweb to exercise the bottomsheet. Use the banner **X** to dismiss for the session; re-trigger with a new sample to show it again.
+
+To point local web at a local JSON file instead of GitHub Pages:
+
+```bash
+# from castle-status
+python3 -m http.server 5500 --bind 127.0.0.1
+```
+
+Then in `castle-web/.env.development.local` (gitignored):
+
+```
+VITE_STATUS_URL=http://127.0.0.1:5500/status-dev.json
+```
+
+Restart `yarn dev`.
 
 ## Templates
 
@@ -78,6 +117,7 @@ Requires `jq`, git push access to `main`, and run from a local clone.
 | `templates/warning.json` | Partial degradation |
 | `templates/maintenance.json` | Planned maintenance |
 | `templates/inactive.json` | Banner off (`active: false`) |
+| `templates/holiday-mweb.json` | Example with distinct mweb copy + CTA |
 
 ## Propagation
 
