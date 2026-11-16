@@ -1,8 +1,8 @@
 {
-  "active": false,
-  "severity": "critical",
-  "title": "",
-  "message": "",
-  "showSupport": true,
-  "updatedAt": "2026-11-12T15:39:00Z"
+  "active": true,
+  "severity": "warning",
+  "title": "Several major banks currently experiencing connection issues.",
+  "message": "If you have trouble connecting your bank account to Castle, please try again later.",
+  "showSupport": false,
+  "updatedAt": "2026-11-16T19:25:30Z"
 }
